@@ -20,11 +20,12 @@
 <style>
   :root { --fs:1; --font:'Press Start 2P', monospace; }
   * { box-sizing:border-box; }
-  html,body { margin:0; height:100%; overflow:hidden; }
+  html,body { margin:0; height:100%; }
+  body { overflow-x:hidden; overflow-y:auto; }
   body { background:var(--bg); color:var(--text); font-family:var(--font); touch-action:manipulation; user-select:none; -webkit-user-select:none; transition:color .3s; }
   #fx, #pfx { position:fixed; inset:0; pointer-events:none; }
   #fx { z-index:0; } #pfx { z-index:50; }
-  .wrap { position:relative; z-index:1; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:10px; }
+  .wrap { position:relative; z-index:1; height:100%; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:10px; }
   .top { display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:center; }
   h1 { margin:0; font-size:calc(var(--fs) * 24px); letter-spacing:4px; font-weight:800; }
   h1 span { display:inline-block; text-shadow:0 0 14px currentColor; animation:bob 2.4s ease-in-out infinite; animation-delay:calc(var(--i) * .12s); }
@@ -130,6 +131,25 @@
     h1 { font-size:calc(var(--fs) * 18px); letter-spacing:3px; flex-basis:100%; text-align:center; }
     .ib { padding:8px 9px; }
   }
+  /* guide below the game */
+  .more { position:absolute; left:50%; bottom:8px; transform:translateX(-50%); font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12px; color:var(--muted); text-decoration:none; opacity:.8; white-space:nowrap; }
+  .more:hover { color:var(--text); opacity:1; }
+  .guide { position:relative; z-index:1; max-width:780px; margin:0 auto; padding:40px 20px 110px; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; line-height:1.65; user-select:text; -webkit-user-select:text; }
+  .guide h2 { font-family:var(--font); font-size:calc(var(--fs) * 18px); line-height:1.5; letter-spacing:1px; margin:0 0 14px; color:var(--text); }
+  .guide h3 { font-family:var(--font); font-size:calc(var(--fs) * 11px); letter-spacing:1px; margin:34px 0 12px; color:var(--accent); }
+  .guide p, .guide li, .guide td { color:var(--text); opacity:.86; font-size:16px; }
+  .guide ol, .guide ul { padding-left:22px; display:grid; gap:6px; margin:0; }
+  .guide b { opacity:1; }
+  .guide .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
+  .guide .card { background:var(--panel); border:2px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .guide .card h4 { margin:0 0 8px; font-size:15px; color:var(--text); }
+  .guide table { width:100%; border-collapse:collapse; }
+  .guide td { padding:7px 4px; border-bottom:1px solid var(--line); font-size:15px; }
+  .guide td:last-child { text-align:right; white-space:nowrap; }
+  .guide kbd { font-family:ui-monospace,monospace; font-size:12.5px; border:1px solid var(--line); border-radius:5px; padding:1px 6px; background:var(--panel); }
+  .guide details { border-top:1px solid var(--line); padding:12px 0; }
+  .guide summary { cursor:pointer; font-weight:600; color:var(--text); }
+  .guide details p { margin:6px 0 0; }
 </style>
 </head>
 <body>
@@ -174,7 +194,67 @@
     <button data-a="left">◀</button><button data-a="rot">⟳</button><button data-a="right">▶</button>
     <button data-a="down">▼</button><button data-a="drop">⤓</button><button data-a="hold">HOLD</button><button data-a="pause">❚❚</button>
   </div>
+  <a class="more" href="#guide">How to play ↓</a>
 </div>
+
+<section class="guide" id="guide">
+  <h2>How to play BlokBlok</h2>
+  <p>BlokBlok is a free falling-block puzzle game that runs in your browser. Pieces made of four squares drop into a 10-wide well. Move and turn them so they fit together, fill complete rows to clear them, and don't let the stack reach the top. The more rows you clear, the faster it gets.</p>
+
+  <h3>Controls</h3>
+  <div class="grid2">
+    <div class="card"><h4>Keyboard</h4><ul>
+      <li><kbd>←</kbd> <kbd>→</kbd> move left and right</li>
+      <li><kbd>↑</kbd> or <kbd>X</kbd> rotate · <kbd>Z</kbd> rotate back</li>
+      <li><kbd>↓</kbd> soft drop · <kbd>Space</kbd> hard drop</li>
+      <li><kbd>C</kbd> hold · <kbd>P</kbd> pause · <kbd>R</kbd> restart</li>
+      <li><kbd>M</kbd> music · <kbd>T</kbd> next theme</li>
+    </ul></div>
+    <div class="card"><h4>Phone and tablet</h4><ul>
+      <li>Use the buttons under the board to move, rotate, drop and hold.</li>
+      <li>Hold a move button to keep sliding the piece.</li>
+      <li><b>❚❚</b> pauses the game.</li>
+      <li>Turn your sound on for the music and effects.</li>
+    </ul></div>
+  </div>
+
+  <h3>Scoring</h3>
+  <table>
+    <tr><td>1 row (Single)</td><td>100 × level</td></tr>
+    <tr><td>2 rows (Double)</td><td>300 × level</td></tr>
+    <tr><td>3 rows (Triple)</td><td>500 × level</td></tr>
+    <tr><td>4 rows at once (BlokBlok!)</td><td>800 × level</td></tr>
+    <tr><td>Two BlokBloks in a row (Back-to-back)</td><td>× 1.5</td></tr>
+    <tr><td>Combo: clearing rows with pieces in a row</td><td>+50 × combo × level</td></tr>
+    <tr><td>Soft drop / hard drop</td><td>1 / 2 points per row</td></tr>
+  </table>
+  <p>You go up one level every 10 rows. Each level makes the pieces fall faster and multiplies your points.</p>
+
+  <h3>Features</h3>
+  <ul>
+    <li><b>Hold:</b> save a piece for later and swap it in when it fits better.</li>
+    <li><b>Next preview:</b> see the next three pieces so you can plan ahead.</li>
+    <li><b>Ghost piece:</b> a faint outline shows where the piece will land. You can switch it off in Settings.</li>
+    <li><b>20 themes:</b> from Neon Night and Pocket 89 to Sakura, Lava Core, Blueprint and Fiesta Pinoy. Turn on "New theme every level up" for a change of scenery as you climb.</li>
+    <li><b>Chiptune music:</b> several tracks, including the public-domain Russian folk song Korobeiniki, with separate music and sound-effect volumes.</li>
+    <li><b>Best score:</b> saved in your browser, so you can try to beat it next time.</li>
+  </ul>
+
+  <h3>Tips for higher scores</h3>
+  <ul>
+    <li>Keep the stack flat and low. Tall towers and deep holes end games quickly.</li>
+    <li>Leave one column on the side open and save the long straight piece for it to clear four rows at once.</li>
+    <li>Use Hold when the current piece doesn't fit anywhere nice.</li>
+    <li>Watch the next pieces, not just the one that's falling.</li>
+    <li>Hard drop with Space once you're sure, to save time and earn extra points.</li>
+  </ul>
+
+  <h3>Questions</h3>
+  <details><summary>Is BlokBlok free?</summary><p>Yes. There's nothing to buy, no sign-up and nothing to download.</p></details>
+  <details><summary>Does it save my progress?</summary><p>Your best score and settings are saved in this browser. A game in progress isn't saved if you close the page.</p></details>
+  <details><summary>Why is there no sound?</summary><p>Browsers only allow sound after you tap or press a key. Press Start, and check that music is on (the ♪ button or <kbd>M</kbd>) and your device isn't muted.</p></details>
+  <details><summary>Can I play offline?</summary><p>Once the page has loaded, the game keeps working without an internet connection.</p></details>
+</section>
 
 <div class="modal hidden" id="modal">
   <div class="sheet">
@@ -1411,5 +1491,6 @@ requestAnimationFrame(loop);
   </div>
 </footer>
 <script src="useful-indeed/badge.js" defer></script>
+<script>document.querySelectorAll('a.more').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();document.getElementById('guide').scrollIntoView({behavior:'smooth'})})});</script>
 </body>
 </html>
